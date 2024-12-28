@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-center my-5">Mesures - {{ capteur.reference }}</h2>
+<h4 class="text-center">Unité : {{ capteur.unite }}, Précision : {{ capteur.precision }}</h4>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Valeur</th>
+                <th>Date de mesure</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mesure in mesures %}
+            <tr>
+                <td>{{ mesure.valeur }}</td>
+                <td>{{ mesure.date_mesure }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2" class="text-center">Aucune mesure trouvée pour ce capteur.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% set previous_url = url_for('logements') %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Bouton de retour -->
+    <div class="mb-3">
+        <a href="{{ previous_url }}" class="btn btn-secondary">Retour</a>
+    </div>
+
+    <!-- Conteneur pour les alertes Bootstrap -->
+    <div id="alert-container" class="mt-3"></div>
+    
+    <h1>Pièces du logement : {{ logement['adresse'] }}</h1>
+    
+    <div class="d-flex justify-content-between align-items-center my-4">
+        <h2>Liste des pièces</h2>
+        <!-- Bouton d'ajout de pièce -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPieceModal">
+            Ajouter une pièce
+        </button>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Dimensions (x, y, z)</th>
+                <th>Nombre de capteurs</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for piece in pieces %}
+            <tr>
+                <td>{{ piece['nom'] }}</td>
+                <td>{{ piece['x'] }} x {{ piece['y'] }} x {{ piece['z'] }}</td>
+                <td>{{ piece['nbr_capt'] }}</td>
+                <td>
+                    <a href="{{ url_for('capteurs', piece_id=piece['IDp']) }}" class="btn btn-primary btn-sm">Voir capteurs</a>
+                    
+                    <!-- Bouton Modifier -->
+                    <button 
+                        class="btn btn-warning btn-sm" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#editPieceModal" 
+                        data-id="{{ piece['IDp'] }}" 
+                        data-nom="{{ piece['nom'] }}" 
+                        data-x="{{ piece['x'] }}" 
+                        data-y="{{ piece['y'] }}" 
+                        data-z="{{ piece['z'] }}">
+                        Modifier
+                    </button>
+
+                    <form action="{{ url_for('supprimer_piece', id=piece['IDp']) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modale pour ajouter une nouvelle pièce -->
+<div class="modal fade" id="addPieceModal" tabindex="-1" aria-labelledby="addPieceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPieceModalLabel">Ajouter une nouvelle pièce</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ url_for('ajouter_piece', logement_id=logement['IDl']) }}" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="piece-nom" class="form-label">Nom de la pièce</label>
+                        <input type="text" class="form-control" id="piece-nom" name="nom" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="piece-x" class="form-label">Dimension X</label>
+                        <input type="number" class="form-control" id="piece-x" name="x" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="piece-y" class="form-label">Dimension Y</label>
+                        <input type="number" class="form-control" id="piece-y" name="y" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="piece-z" class="form-label">Dimension Z</label>
+                        <input type="number" class="form-control" id="piece-z" name="z" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-success">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modale pour modifier une pièce -->
+<div class="modal fade" id="editPieceModal" tabindex="-1" aria-labelledby="editPieceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPieceModalLabel">Modifier une pièce</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ url_for('modifier_piece') }}" method="post" id="edit-piece-form">
+                <div class="modal-body">
+                    <input type="hidden" id="edit-piece-id" name="id">
+                    <div class="mb-3">
+                        <label for="edit-piece-nom" class="form-label">Nom de la pièce</label>
+                        <input type="text" class="form-control" id="edit-piece-nom" name="nom" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-piece-x" class="form-label">Dimension X</label>
+                        <input type="number" class="form-control" id="edit-piece-x" name="x" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-piece-y" class="form-label">Dimension Y</label>
+                        <input type="number" class="form-control" id="edit-piece-y" name="y" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-piece-z" class="form-label">Dimension Z</label>
+                        <input type="number" class="form-control" id="edit-piece-z" name="z" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-warning">Modifier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modale d'erreur -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="errorModalBody">
+                Une erreur s'est produite.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

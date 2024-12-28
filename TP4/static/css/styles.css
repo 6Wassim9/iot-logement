@@ -1,0 +1,192 @@
+/* Global Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #e0f7fa, #f1f8e9, #ffffff); /* Dégradé multi-couleur doux */
+    color: #333;
+    min-height: 100vh; /* Assure que le contenu couvre toute la hauteur */
+    display: flex;
+    flex-direction: column; /* Pour aligner le contenu et le footer */
+}
+
+.container {
+    flex: 1; /* Étire le contenu pour occuper l'espace disponible */
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: #005f73;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+    letter-spacing: 1px;
+    animation: fadeIn 1s ease; /* Animation d'apparition subtile */
+}
+
+/* Header */
+header {
+    background-color: #333;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+}
+
+header a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: color 0.3s ease; /* Transition douce */
+}
+
+header a:hover {
+    color: #82c495; /* Couleur au survol */
+    text-decoration: underline;
+}
+
+/* Buttons */
+button, .btn {
+    background: linear-gradient(90deg, #2a9d8f, #264653);
+    color: white;
+    padding: 12px 20px;
+    border: none; /* Suppression complète des bordures */
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Ombre plus douce */
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover, .btn:hover {
+    background: linear-gradient(90deg, #21867a, #1b3d4a); /* Couleurs plus sombres au survol */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Mise en avant subtile */
+}
+
+button:active, .btn:active {
+    transform: translateY(2px); /* Effet d'enfoncement au clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); /* Réduction de l'ombre */
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(90deg, #333, #555); /* Dégradé subtile */
+    color: white;
+    text-align: center;
+    height: 70px;
+    line-height: 20px;
+    width: 100%;
+    padding: 15px;
+    margin-top: auto; /* Force le footer à rester en bas */
+    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
+}
+
+footer i {
+    color: #82c495;
+}
+
+footer i:hover {
+    color: #a8e6cf;
+    transform: scale(1.2);
+}
+
+/* Fancy Table with Advanced Style */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.9); /* Arrière-plan légèrement transparent */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+table th {
+    background: linear-gradient(90deg, #005f73, #0a9396);
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+table td {
+    background: #f9f9f9;
+    color: #333;
+}
+
+table tr:nth-child(even) td {
+    background: #ffffff;
+}
+
+table tr:hover td {
+    background: #e0f7fa;
+    transform: scale(1.01); /* Légère mise en avant */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation Bar */
+nav.fixed-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(90deg, #0a9396, #005f73);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    height: 70px;
+    padding: 0 15px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+nav.fixed-top:hover {
+    background: linear-gradient(90deg, #0d7d89, #00738b); /* Accentuation au survol */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Liens dans la navigation */
+.navbar-brand, .nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #82c495;
+    transform: scale(1.1);
+}
+
+/* Barre active */
+.nav-link.active {
+    border-bottom: 2px solid #82c495;
+    font-weight: bold;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

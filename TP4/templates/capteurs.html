@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="mb-3">
+        <a href="{{ url_for('logement', logement_id=logement_id) }}" class="btn btn-secondary">Retour</a>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Capteurs de la pièce : {{ piece['nom'] }}</h2>
+        <!-- Bouton pour afficher la modale d'ajout de capteur -->
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCapteurModal">Ajouter un capteur</button>
+    </div>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Référence commerciale</th>
+                <th>Date d'installation</th>
+                <th>Précision</th>
+                <th>Unité</th>
+                <th>Dernière valeur</th>
+                <th>Heure de dernière mesure</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for capteur in capteurs %}
+            <tr data-id="{{ capteur['IDc'] }}">
+                <td>{{ capteur['ref_commerciale'] }}</td>
+                <td class="date-installation">{{ capteur['date_crea'].split(' ')[0] }}</td>
+                <td>{{ capteur['precis'] }}</td>
+                <td>{{ capteur['unite'] }}</td>
+                <td class="derniere-valeur">{{ capteur['derniere_valeur'] or "N/A" }}</td>
+                <td class="heure-mesure">{{ capteur['heure_mesure'] or "N/A" }}</td>
+                <td>
+                    <!-- Bouton pour afficher la modale de modification -->
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                            data-bs-target="#editCapteurModal" 
+                            data-id="{{ capteur['IDc'] }}" 
+                            data-ref="{{ capteur['ref_commerciale'] }}" 
+                            data-type="{{ capteur['IDt'] }}" 
+                            data-date="{{ capteur['date_crea'].split(' ')[0] }}">
+                        Modifier
+                    </button>
+                    <form method="POST" action="{{ url_for('supprimer_capteur', id=capteur['IDc']) }}" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modale pour ajouter un capteur -->
+<div class="modal fade" id="addCapteurModal" tabindex="-1" aria-labelledby="addCapteurModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ url_for('ajouter_capteur', piece_id=piece['IDp']) }}" method="post" id="add-capteur-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCapteurModalLabel">Ajouter un capteur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="ref-commerciale" class="form-label">Référence commerciale</label>
+                        <input type="text" class="form-control" id="ref-commerciale" name="ref_commerciale" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id-type" class="form-label">Type de capteur</label>
+                        <select class="form-select" id="id-type" name="id_type" required>
+                            {% for type in types_capteurs %}
+                            <option value="{{ type['IDt'] }}">{{ type['nom'] }} - {{ type['unite'] }} - Précision: {{ type['precis'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="date-installation" class="form-label">Date d'installation</label>
+                        <input type="date" class="form-control" id="date-installation" name="date_installation" max="{{ now }}" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-success">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modale pour modifier un capteur -->
+<div class="modal fade" id="editCapteurModal" tabindex="-1" aria-labelledby="editCapteurModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ url_for('modifier_capteur', piece_id=piece['IDp']) }}" method="post" id="edit-capteur-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCapteurModalLabel">Modifier un capteur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="capteur-id" name="id">
+                    <div class="mb-3">
+                        <label for="edit-ref-commerciale" class="form-label">Référence commerciale</label>
+                        <input type="text" class="form-control" id="edit-ref-commerciale" name="ref_commerciale" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-id-type" class="form-label">Type de capteur</label>
+                        <select class="form-select" id="edit-id-type" name="id_type" required>
+                            {% for type in types_capteurs %}
+                            <option value="{{ type['IDt'] }}">{{ type['nom'] }} - {{ type['unite'] }} - Précision: {{ type['precis'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-date-installation" class="form-label">Date d'installation</label>
+                        <input type="date" class="form-control" id="edit-date-installation" name="date_installation" max="{{ now }}" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

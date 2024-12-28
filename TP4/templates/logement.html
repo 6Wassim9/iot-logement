@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="my-3">Logements</h2>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addLogementModal">Ajouter un logement</button>
+    </div>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Adresse</th>
+                <th>Numéro de téléphone</th>
+                <th>IP</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for logement in logements %}
+            <tr>
+                <td>{{ logement.adresse }}</td>
+                <td>{{ logement.num_tel }}</td>
+                <td>{{ logement.IP }}</td>
+                <td>
+                    <a href="{{ url_for('logement', logement_id=logement.IDl) }}" class="btn btn-primary btn-sm">Voir pièces</a>
+                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editLogementModal" 
+                            data-id="{{ logement.IDl }}" 
+                            data-adresse="{{ logement.adresse }}" 
+                            data-numtel="{{ logement.num_tel }}" 
+                            data-ip="{{ logement.IP }}">
+                        Modifier
+                    </button>
+                    <form method="POST" action="{{ url_for('supprimer_logement', id=logement.IDl) }}" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modale pour ajouter un logement -->
+<div class="modal fade" id="addLogementModal" tabindex="-1" aria-labelledby="addLogementModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ url_for('ajouter_logement') }}" method="post" id="add-logement-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addLogementModalLabel">Ajouter un logement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="adresse" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" id="adresse" name="adresse" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="num_tel" class="form-label">Numéro de téléphone</label>
+                        <input type="tel" class="form-control" id="num_tel" name="num_tel" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ip" class="form-label">IP</label>
+                        <input type="text" class="form-control" id="ip" name="ip" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-success">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modale pour modifier un logement -->
+<div class="modal fade" id="editLogementModal" tabindex="-1" aria-labelledby="editLogementModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ url_for('modifier_logement') }}" method="post" id="edit-logement-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editLogementModalLabel">Modifier un logement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="logement-id" name="id">
+                    <div class="mb-3">
+                        <label for="edit-adresse" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" id="edit-adresse" name="adresse" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-num-tel" class="form-label">Numéro de téléphone</label>
+                        <input type="tel" class="form-control" id="edit-num-tel" name="num_tel" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-ip" class="form-label">IP</label>
+                        <input type="text" class="form-control" id="edit-ip" name="ip" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

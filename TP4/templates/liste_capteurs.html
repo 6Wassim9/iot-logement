@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Tous les Capteurs</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Référence</th>
+            <th>Date d'installation</th>
+            <th>Unité</th>
+            <th>Précision</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for capteur in capteurs %}
+        <tr>
+            <td>{{ capteur['ref_commerciale'] }}</td>
+            <td>{{ capteur['date_crea'] }}</td>
+            <td>{{ capteur['unite'] }}</td>
+            <td>{{ capteur['precis'] }}</td>
+            <td>
+                <a href="{{ url_for('mesures', id=capteur['IDc']) }}" class="btn btn-primary">Voir Mesures</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="text-center">Aucun capteur trouvé.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

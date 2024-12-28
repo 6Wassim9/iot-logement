@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="my-4">Bienvenue dans l'application IoT</h1>
+    <p>Gérez vos logements, pièces et factures d'un seul endroit.</p>
+
+    <div class="row my-5">
+        <div class="col-md-6">
+            <h3>Logements</h3>
+            <p>Gérez vos logements et leurs pièces.</p>
+            <a href="/logement" class="btn btn-primary">Voir</a>
+        </div>
+        <div class="col-md-6">
+            <h3>Factures</h3>
+            <p>Consultez vos consommations et économies réalisées.</p>
+            <a href="/factures" class="btn btn-primary">Voir</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

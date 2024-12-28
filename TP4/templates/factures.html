@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Factures par Logement</h2>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Adresse</th>
+                <th>Numéro de Téléphone</th>
+                <th>IP</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for logement in logements %}
+            <tr>
+                <td>{{ logement['adresse'] }}</td>
+                <td>{{ logement['num_tel'] }}</td>
+                <td>{{ logement['IP'] }}</td>
+                <td>
+                    <a href="{{ url_for('factures_logement', logement_id=logement['IDl']) }}" class="btn btn-primary btn-sm">
+                        Voir Factures
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if factures %}
+<div class="container mt-5">
+    <h3>Factures pour {{ logement['adresse'] }}</h3>
+
+    <!-- Graphique de consommation -->
+    <div>
+        <h4>Graphique de Consommation</h4>
+        <canvas id="consommationChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Liste des factures -->
+    <h4 class="mt-5">Liste des Factures</h4>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Valeur Commerciale</th>
+                <th>Montant (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for facture in factures %}
+            <tr>
+                <td>{{ facture['date_crea'] }}</td>
+                <td>{{ facture['type'] }}</td>
+                <td>{{ facture['val_commerciale'] }}</td>
+                <td>{{ facture['montant'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endif %}
+{% endblock %}
