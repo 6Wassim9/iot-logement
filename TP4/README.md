@@ -72,11 +72,16 @@ pip install flask flask-cors requests
 
 ### Étapes pour lancer l'application
 
-1. **Initialiser la base de données :**
+1. **Télécharger l'ensemble du code**
+   - Sur GitHub ou GitLab de l'université télécharger le dossier TP4.zip et mettez le dans un endroit dans votre machine.
+   - Dezipper le dossier TP4.zip.
+   - NB: il est recommander d'utilisant un environnement de développement intégré spécialiser telque VScode.
+     
+3. **Initialiser la base de données :**
    - Exécutez le script `logement.sql` pour créer les tables nécessaires.
    - Vous pouvez également utiliser le fichier `remplissage.py` pour insérer des données de test.
 
-2. **Lancer le serveur :**
+4. **Lancer le serveur :**
    - Ouvrez un terminal dans le dossier contenant `app_rest.py`.
    - Exécutez la commande :
      ```bash
@@ -84,10 +89,10 @@ pip install flask flask-cors requests
      ```
    - Le serveur sera disponible sur `http://localhost:5000`.
 
-3. **Accéder à l'interface utilisateur :**
+5. **Accéder à l'interface utilisateur :**
    - Ouvrez un navigateur et allez à l'adresse `http://localhost:5000`.
 
-4. **API météo :**
+6. **API météo :**
    - Le serveur utilise l'API OpenWeatherMap pour récupérer des prévisions météo. Assurez-vous que la clé API est définie dans `app_rest.py`.
 
 ---
